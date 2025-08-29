@@ -28,7 +28,6 @@ public class AppUser implements UserDetails {
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "student_sequence")
     private Long id;
 
-    private String name;
     private String username;
     private String email;
     private String password;
@@ -39,11 +38,10 @@ public class AppUser implements UserDetails {
     private Boolean locked;
     private Boolean enabled;
 
-    public AppUser(String name, String username,
+    public AppUser(String username,
                    String email, String password,
                    AppUserRole appUserRole, Boolean locked,
                    Boolean enabled) {
-        this.name = name;
         this.username = username;
         this.email = email;
         this.password = password;

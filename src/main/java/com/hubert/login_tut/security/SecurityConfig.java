@@ -10,6 +10,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 
 @Configuration
@@ -18,6 +19,9 @@ public class SecurityConfig {
 
     @Autowired
     private AppUserService appUserService;
+
+    @Autowired
+    private BCryptPasswordEncoder bCryptPasswordEncoder;
 
     @Bean
     public UserDetailsService userDetailsService(){
@@ -28,6 +32,7 @@ public class SecurityConfig {
     public AuthenticationProvider authenticationProvider(){
         DaoAuthenticationProvider provider = new DaoAuthenticationProvider();
         provider.setUserDetailsService(appUserService);
+        provider.setPasswordEncoder(bCryptPasswordEncoder);
         return provider;
     }
 
@@ -39,10 +44,9 @@ public class SecurityConfig {
                     httpForm.loginPage("/login").permitAll();
                 })
                 .authorizeHttpRequests(registry -> {
-                    registry.requestMatchers("/registration", "/css/**", "/js/**").permitAll();
+                    registry.requestMatchers("/registration", "/login", "/css/**", "/js/**").permitAll();
                     registry.anyRequest().authenticated();
                 })
                 .build();
     }
-
 }

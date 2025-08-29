@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Registration</title>
-    <link rel="stylesheet" th:href="@{css/style.css}">
+    <link rel="stylesheet" th:href="@{/css/style.css}">
 </head>
 <body>
 <div class="container">
@@ -31,28 +31,34 @@
 </html>
 
 <script>
-    const submitButton = document.getElementById("submit");
-    submitButton.addEventListener('click', ()=>{
-        const username = document.getElementById('username').value;
-        const password = document.getElementById('password').value;
-        const email = document.getElementById('email').value;
+    document.getElementById('registrationForm').addEventListener('submit', function(event) {
+        event.preventDefault();
 
-        const data ={
-            username,
-            password,
-            email
-        }
+        const formData = new FormData(this);
+        const data = {};
+        formData.forEach((value, key) => {
+            data[key] = value;
+        });
 
-        const jsonData = JSON.stringify(data);
-        fetch('/registration',{
-            method: POST,
-            headers:{
-                'Content-Type': 'application/json'
+        fetch('/registration', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
             },
-            body:jsonData
+            body: JSON.stringify(data),
         })
-            .then(response => {
-
+            .then(response => response.text())
+            .then(data => {
+                if (data.includes('successfully')) {
+                    alert('Registration successful!');
+                    window.location.href = '/login';
+                } else {
+                    alert('Registration failed: ' + data);
+                }
             })
-    })
+            .catch((error) => {
+                console.error('Error:', error);
+                alert('An error occurred during registration.');
+            });
+    });
 </script>
