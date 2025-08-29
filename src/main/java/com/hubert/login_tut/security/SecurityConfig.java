@@ -16,7 +16,7 @@ public class SecurityConfig {
             httpForm.loginPage("/login").permitAll();
         })
                 .authorizeHttpRequests(registry -> {
-                    registry.requestMatchers("/registration").permitAll();
+                    registry.requestMatchers("/registration", "/css/**", "/js/**").permitAll();
                     registry.anyRequest().authenticated();
                 })
                 .build();
