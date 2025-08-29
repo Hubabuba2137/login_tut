@@ -1,18 +1,22 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Registration</title>
-    <link rel="stylesheet" href="../static/css/style.css">
+    <link rel="stylesheet" th:href="@{/css/style.css}">
 </head>
 <body>
 <div class="container">
     <form id="registrationForm">
         <h1>Register</h1>
         <div class="input-group">
-            <label for="username">Username</label>
-            <input type="text" id="username" name="username" required>
+            <label for="firstName">First Name</label>
+            <input type="text" id="firstName" name="firstName" required>
+        </div>
+        <div class="input-group">
+            <label for="lastName">Last Name</label>
+            <input type="text" id="lastName" name="lastName" required>
         </div>
         <div class="input-group">
             <label for="email">Email</label>
@@ -23,9 +27,9 @@
             <input type="password" id="password" name="password" required>
         </div>
         <button type="submit">Register</button>
-        <p class="message">Already registered? <a href="login.html">Sign In</a></p>
+        <p class="message">Already registered? <a th:href="@{/login}">Sign In</a></p>
     </form>
 </div>
-<script src="../static/js/registration.js"></script>
+<script th:src="@{/js/registration.js}"></script>
 </body>
 </html>
